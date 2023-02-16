@@ -134,8 +134,9 @@ if __name__ == "__main__":
         for icol in range(3):
 
             data = load_and_extract(fn)
+            pids = data.gas.particle_ids
             print(n, icol, pids, np.all(pids[:-1] <= pids[1:]))
-            data.gas.masses[:] = rgbs[:, icol]
+            data.gas.masses[:] = rgbs[pids, icol]
 
             mesh[:, :, icol] = project_gas_pixel_grid(data, dpi)
 
