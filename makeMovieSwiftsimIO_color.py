@@ -102,6 +102,7 @@ if __name__ == "__main__":
         fn = "{}_{:04d}.hdf5".format(filename, n)
 
         data = load_and_extract(fn)
+        print(data.metadata.gas_properties.field_names)
 
         # Get IDs
         pids = data.gas.particle_ids
