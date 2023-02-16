@@ -8,6 +8,17 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import swiftascmaps
 
+
+def cartesian_to_polar(x, y):
+    r = np.sqrt(x**2 + y**2)
+    theta = np.arctan2(y, x)
+    theta = (theta + 2 * np.pi) % (2 * np.pi)
+    out = np.zeros((x.size, 2))
+    out[:, 0] = r
+    out[:, 1] = theta
+    return np.array((r, theta)).T
+
+
 IMAGE_SIZE = 512
 
 image = PIL.Image.open(sys.argv[1])
@@ -88,11 +99,14 @@ vels = np.zeros((xs.size, 3))
 # Randomly spaced coordinates from 0, 100 Mpc in each direction
 x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc
 
-delta = x.gas.coordinates.value - (IMAGE_SIZE // 2)
+delta = x.gas.coordinates.value - 237
+polar = cartesian_to_polar(delta[:, 0], delta[:, 1])
 rs = np.sqrt(delta[:, 0] ** 2 + delta[:, 1] ** 2)
 print(rs.min(), rs.max())
 okinds = np.where(rs < 20)[0]
-print(okinds.size)
+print(okinds.size, okinds)
+vels[okinds, 0] = 10 * np.cos(polar[okinds, 1])
+vels[okinds, 1] = 10 * np.sin(polar[okinds, 1])
 x.gas.velocities = vels * (unyt.km / unyt.s)
 
 # Generate uniform masses as 10^6 solar masses for each particle
@@ -101,7 +115,7 @@ x.gas.masses = np.ones(n_p, dtype=float) * unyt.Msun
 # Generate internal energy corresponding to 10^4 K
 int_en = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
 x.gas.internal_energy = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
-x.gas.internal_energy[okinds] = 10 ** 1 * (unyt.km / unyt.s) ** 2
+x.gas.internal_energy[okinds] = 5 * 10 ** 1 * (unyt.km / unyt.s) ** 2
 #
 x.gas.smoothing_length = np.ones(len(xs)) * unyt.Mpc
 x.gas.particle_ids = np.arange(n_p, dtype=int)

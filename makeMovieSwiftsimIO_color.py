@@ -156,8 +156,6 @@ if __name__ == "__main__":
         fig.savefig("{}_{:04d}.png".format(outfilename, n), dpi=dpi)
         plt.close(fig)
 
-        data.gas.masses = mass
-
         # Loop over colors
         for icol in range(3):
 
