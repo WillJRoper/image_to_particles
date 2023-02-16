@@ -12,6 +12,7 @@ IMAGE_SIZE = 512
 # %%
 image = PIL.Image.open(sys.argv[1])
 resized = image.resize((IMAGE_SIZE, IMAGE_SIZE))
+rgb_img = resized.convert('RGB')
 grayscale = PIL.ImageOps.grayscale(resized)
 posterized = PIL.ImageOps.posterize(grayscale, 2)
 
@@ -24,6 +25,9 @@ densities = (np.array(posterized) // (256 // 4)) + 1
 xs = []
 ys = []
 dens = []
+rs = []
+gs = []
+bs = []
 for x in np.arange(IMAGE_SIZE):
     for y in np.arange(IMAGE_SIZE):
         density = densities[x, y]
@@ -35,6 +39,11 @@ for x in np.arange(IMAGE_SIZE):
         xs.extend(list((these_xs + float(x)).flat))
         ys.extend(list((these_ys + float(y)).flat))
         dens.extend([density] * these_xs.size)
+
+        r, g, b = rgb_img.getpixel((x, y))
+        rs.extend(len(list((these_xs + float(x)).flat)) * [r, ])
+        gs.extend(len(list((these_xs + float(x)).flat)) * [g, ])
+        bs.extend(len(list((these_xs + float(x)).flat)) * [b, ])
 
 xs = np.array(xs)
 ys = np.array(ys)

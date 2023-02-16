@@ -1,10 +1,11 @@
 # Define the system of units to use internally. 
 InternalUnitSystem:
-  UnitMass_in_cgs:     1   # Grams
-  UnitLength_in_cgs:   1   # Centimeters
-  UnitVelocity_in_cgs: 1   # Centimeters per second
-  UnitCurrent_in_cgs:  1   # Amperes
-  UnitTemp_in_cgs:     1   # Kelvin
+  UnitMass_in_cgs:     1.98841e43    # 10^10 M_sun in grams
+  UnitLength_in_cgs:   3.08567758e24 # Mpc in centimeters
+  UnitVelocity_in_cgs: 1e5           # km/s in centimeters per second
+  UnitCurrent_in_cgs:  1             # Amperes
+  UnitTemp_in_cgs:     1             # Kelvin
+
   
 # Parameters governing the time integration
 TimeIntegration:
@@ -15,7 +16,7 @@ TimeIntegration:
 
 # Parameters governing the snapshots
 Snapshots:
-  basename:            albumCover  # Common part of the name of output files
+  basename:            data/josh  # Common part of the name of output files
   time_first:          0.               # Time of the first output (in internal units)
   delta_time:          0.1      # Time difference between consecutive outputs (in internal units)
 
@@ -30,6 +31,9 @@ SPH:
   
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./test.hdf5     # The file to read
+  file_name:  ./img_ics.hdf5     # The file to read
   periodic:   1
   cleanup_smoothing_lengths: 1
+
+Scheduler:
+  max_top_level_cells: 8

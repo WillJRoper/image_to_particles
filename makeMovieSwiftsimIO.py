@@ -8,7 +8,7 @@ Edit this file near the bottom with the number of snaps you have.
 
 Written by Josh Borrow (joshua.borrow@durham.ac.uk)
 """
-
+import sys
 import os
 import h5py as h5
 import numpy as np
@@ -60,15 +60,15 @@ if __name__ == "__main__":
     matplotlib.use("Agg")
 
     from tqdm import tqdm
-    from matplotlib.animation import FuncAnimation
     from scipy.stats import gaussian_kde
     from matplotlib.colors import LogNorm
 
     import swiftascmaps
     import matplotlib.pyplot as plt
 
-    filename = "albumCover"
-    dpi = 1024
+    filename = sys.argv[1]
+    dpi = int(sys.argv[2])
+    outfilename = sys.argv[2]
 
     # Look for the number of files in the directory.
     i = 0
@@ -79,32 +79,36 @@ if __name__ == "__main__":
             break
 
         if i > 10000:
-            raise FileNotFoundError("Could not find the snapshots in the directory")
+            raise FileNotFoundError(
+                "Could not find the snapshots in the directory")
 
     frames = tqdm(np.arange(0, i))
 
-    # Creation of first frame
-    fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
-    ax.axis("off")  # Remove annoying black frame.
+    for n in frames:
 
-    data = load_and_extract(f"{filename}_0000.hdf5")
+        fn = "{}_{:04d}.hdf5".format(filename, n)
 
-    mesh = project_gas_pixel_grid(data, dpi)
+        # Creation of first frame
+        fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
+        ax.axis("off")  # Remove annoying black frame.
 
-    # Global variable for set_array
-    plot = ax.imshow(
-        mesh,
-        extent=[0, 1, 0, 1],
-        animated=True,
-        interpolation="none",
-        norm=LogNorm(vmin=mesh.min() * 0.9, vmax=mesh.max() * 1.1),
-        cmap="swift.midnights",
-    )
+        data = load_and_extract(fn)
 
-    anim = FuncAnimation(fig, frame, frames, interval=40, blit=False)
+        mesh = project_gas_pixel_grid(data, dpi)
 
-    # Remove all whitespace
-    fig.subplots_adjust(left=0, bottom=0, right=1, top=1, wspace=None, hspace=None)
+        # Global variable for set_array
+        plot = ax.imshow(
+            mesh,
+            extent=[0, 1, 0, 1],
+            animated=True,
+            interpolation="none",
+            norm=LogNorm(vmin=mesh.min() * 0.9, vmax=mesh.max() * 1.1),
+            cmap="swift.midnights",
+        )
 
-    # Actually make the movie
-    anim.save("khmovie.mp4", dpi=dpi)
+        # Remove all whitespace
+        fig.subplots_adjust(left=0, bottom=0, right=1,
+                            top=1, wspace=None, hspace=None)
+
+        fig.savefig("{}_{:04d}.png".format(outfilename, n), dpi=dpi)
+        plt.close(fig)
