@@ -140,7 +140,8 @@ if __name__ == "__main__":
         # Loop over colors
         for icol in range(3):
 
-            data.gas.masses[:] = rgbs[pids, icol]
+            if icol != 0:
+                data.gas.masses[:] = rgbs[pids, icol]
 
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
