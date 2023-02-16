@@ -101,11 +101,14 @@ if __name__ == "__main__":
 
         fn = "{}_{:04d}.hdf5".format(filename, n)
 
+        data = load_and_extract(fn)
+
+        # Get IDs
+        pids = data.gas.particle_ids
+
         # Creation of first frame
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
         ax.axis("off")  # Remove annoying black frame.
-
-        data = load_and_extract(fn)
 
         mesh = project_gas_pixel_grid(data, dpi)
 
@@ -130,18 +133,12 @@ if __name__ == "__main__":
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
         ax.axis("off")  # Remove annoying black frame.
 
-        data = load_and_extract(fn)
-
-        # Get IDs
-        pids = data.gas.particle_ids
-
         mesh = np.zeros((dpi, dpi, 3))
 
         # Loop over colors
         for icol in range(3):
 
-            if icol != 0:
-                data.gas.masses[:] = rgbs[pids, icol]
+            data.gas.masses[:] = rgbs[pids, icol]
 
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
@@ -170,14 +167,10 @@ if __name__ == "__main__":
             fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
             ax.axis("off")  # Remove annoying black frame.
 
-            data = load_and_extract(fn)
-
-            # Get IDs
-            pids = data.gas.particle_ids
-
             mesh = np.zeros((dpi, dpi, 3))
 
-            data.gas.masses[:] = rgbs[pids, icol]
+            if icol != 0:
+                data.gas.masses[:] = rgbs[pids, icol]
 
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
