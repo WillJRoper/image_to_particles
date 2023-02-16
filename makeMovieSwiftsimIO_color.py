@@ -102,17 +102,12 @@ if __name__ == "__main__":
         fn = "{}_{:04d}.hdf5".format(filename, n)
 
         data = load_and_extract(fn)
-        print(data.metadata.gas_properties.field_names)
-
-        # Get IDs
-        pids = data.gas.particle_ids
-        mass = data.gas.masses
 
         # Creation of first frame
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
         ax.axis("off")  # Remove annoying black frame.
 
-        mesh = project_gas_pixel_grid(data, dpi, project="temperatures")
+        mesh = project_gas_pixel_grid(data, dpi)
 
         # Global variable for set_array
         plot = ax.imshow(
@@ -139,12 +134,11 @@ if __name__ == "__main__":
         # Loop over colors
         for icol in range(3):
 
+            data = load_and_extract(fn)
+            pids = data.gas.particle_ids
             data.gas.masses[:] = rgbs[pids, icol]
 
-            mesh[:, :, icol] = project_gas_pixel_grid(
-                data, dpi
-            )
-            data.gas.masses = mass
+            mesh[:, :, icol] = project_gas_pixel_grid(data, dpi)
 
             mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
@@ -173,13 +167,11 @@ if __name__ == "__main__":
 
             mesh = np.zeros((dpi, dpi, 3))
 
-            if icol != 0:
-                data.gas.masses[:] = rgbs[pids, icol]
+            data = load_and_extract(fn)
+            pids = data.gas.particle_ids
+            data.gas.masses[:] = rgbs[pids, icol]
 
-            mesh[:, :, icol] = project_gas_pixel_grid(
-                data, dpi
-            )
-            data.gas.masses = mass
+            mesh[:, :, icol] = project_gas_pixel_grid(data, dpi)
 
             mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
