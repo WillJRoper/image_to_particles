@@ -105,6 +105,7 @@ if __name__ == "__main__":
 
         # Get IDs
         pids = data.gas.particle_ids
+        mass = data.gas.masses
 
         # Creation of first frame
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
@@ -142,6 +143,7 @@ if __name__ == "__main__":
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
             )
+            data.gas.masses = mass
 
             mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
@@ -159,6 +161,8 @@ if __name__ == "__main__":
         fig.savefig("{}_{:04d}.png".format(outfilename, n), dpi=dpi)
         plt.close(fig)
 
+        data.gas.masses = mass
+
         # Loop over colors
         for icol in range(3):
 
@@ -174,6 +178,7 @@ if __name__ == "__main__":
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
             )
+            data.gas.masses = mass
 
             mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
