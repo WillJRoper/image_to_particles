@@ -136,12 +136,12 @@ if __name__ == "__main__":
             data = load_and_extract(fn)
             pids = data.gas.particle_ids
 
-            data.gas.internal_energy[:] = rgbs[pids, icol]
+            data.gas.color = rgbs[pids, icol] * data.gas.masses
 
-            mesh[:, :, icol] = project_gas_pixel_grid(data, dpi,
-                                                      project="internal_energy")
+            color_img = project_gas_pixel_grid(data, dpi, project="color")
+            mass_img = project_gas_pixel_grid(data, dpi)
 
-            mesh[:, :, icol] = normalize(mesh[:, :, icol])
+            mesh[:, :, icol] = normalize(color_img / mass_img)
 
         # Global variable for set_array
         plot = ax.imshow(
