@@ -84,7 +84,7 @@ n_p = len(xs)
 vels = np.zeros((xs.size, 3))
 # okinds = dens < 2
 # vels[okinds, 0] = 1
-
+print(x.metadata.gas_properties.field_names)
 # Randomly spaced coordinates from 0, 100 Mpc in each direction
 x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc
 
@@ -105,6 +105,6 @@ x.gas.temperatures = temp
 #
 x.gas.smoothing_length = np.ones(len(xs)) * unyt.Mpc
 x.gas.particle_ids = np.arange(n_p, dtype=int)
-
+print(x.metadata.gas_properties.field_names)
 # If IDs are not present, this automatically generates
 x.write("img_ics.hdf5")
