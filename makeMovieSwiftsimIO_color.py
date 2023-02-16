@@ -106,6 +106,7 @@ if __name__ == "__main__":
         # Loop over colors
         for icol in range(3):
 
+            print(data.gas.masses)
             data.gas.masses = rgbs[pids, icol] * unyt.Msun
 
             mesh[:, :, icol] = project_gas_pixel_grid(
