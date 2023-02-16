@@ -77,7 +77,9 @@ x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc
 x.gas.velocities = vels * (unyt.km / unyt.s)
 
 # Generate uniform masses as 10^6 solar masses for each particle
-x.gas.masses = np.ones(n_p, dtype=float) * unyt.Msun
+mass = np.ones(n_p, dtype=float)
+mass[okinds] = 10 ** 3
+x.gas.masses = mass * unyt.Msun
 
 # Generate internal energy corresponding to 10^4 K
 int_en = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
