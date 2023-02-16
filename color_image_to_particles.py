@@ -9,7 +9,7 @@ from matplotlib.colors import LogNorm
 import swiftascmaps
 
 IMAGE_SIZE = 512
-# %%
+
 image = PIL.Image.open(sys.argv[1])
 resized = image.resize((IMAGE_SIZE, IMAGE_SIZE))
 rgb_img = resized.convert('RGB')
@@ -48,6 +48,9 @@ for x in np.arange(IMAGE_SIZE):
 xs = np.array(xs)
 ys = np.array(ys)
 dens = np.array(dens)
+rs = np.array(rs)
+gs = np.array(gs)
+bs = np.array(bs)
 print(np.max(xs), np.max(ys))
 print(len(xs), len(dens))
 # %%
@@ -57,12 +60,14 @@ ax.axis("off")
 # , cmap="swift.evermore_shifted")
 h = plt.hist2d(ys, -xs, norm=LogNorm(), bins=IMAGE_SIZE)
 print(h[0].max())
-plt.show()
-plt.close()
+# plt.show()
+# plt.close()
 # %%
 # Now create swift ics
 
 # %%
+
+np.save("rgbs.npy", np.array([rs, gs, bs]).T)
 
 
 # Box is image_size cm
@@ -83,22 +88,9 @@ vels = np.zeros((xs.size, 3))
 # Randomly spaced coordinates from 0, 100 Mpc in each direction
 x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc
 
-delta = x.gas.coordinates.value - IMAGE_SIZE // 2
-rs = np.sqrt(delta[0] ** 2 + delta[1] ** 2 + delta[2] ** 2)
-mid_point = np.argmin(rs)
-
-# # Random velocities from 0 to 1 km/s
-# x.gas.velocities = (
-#     np.array(
-#         [
-#             3.0 * ((ys > IMAGE_SIZE[1] * 0.5) - 0.5),
-#             10.0 * ((xs > IMAGE_SIZE[0] * 0.5) - 0.5),
-#             np.zeros_like(xs),
-#         ]
-#     ).T
-#     * (unyt.Mpc / unyt.s)
-# )
-
+delta = x.gas.coordinates.value - (IMAGE_SIZE // 2)
+rs = np.sqrt(delta[:, 0] ** 2 + delta[:, 1] ** 2 + delta[:, 2] ** 2)
+mid_point = np.argmin(np.abs(rs))
 x.gas.velocities = vels * (unyt.km / unyt.s)
 
 # Generate uniform masses as 10^6 solar masses for each particle
@@ -106,11 +98,13 @@ x.gas.masses = np.ones(n_p, dtype=float) * unyt.Msun
 
 # Generate internal energy corresponding to 10^4 K
 int_en = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
-int_en[mid_point] *= 1000 * (unyt.km / unyt.s) ** 2
 x.gas.internal_energy = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
-
+temp = np.full(n_p, 100) * unyt.K
+temp[mid_point] = 10**8 * unyt.K
+x.gas.temperatrue = temp
 #
 x.gas.smoothing_length = np.ones(len(xs)) * unyt.Mpc
+x.gas.particle_ids = np.arange(n_p, dtype=int)
 
 # If IDs are not present, this automatically generates
 x.write("img_ics.hdf5")
