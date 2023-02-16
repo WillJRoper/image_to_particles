@@ -27,6 +27,15 @@ def load_and_extract(filename):
     return load(filename)
 
 
+def normalize(x):
+    """
+    Normalize a list of sample image data in the range of 0 to 1
+    : x: List of image data.  The image shape is (32, 32, 3)
+    : return: Numpy array of normalized data
+    """
+    return np.array((x - np.min(x)) / (np.max(x) - np.min(x)))
+
+
 def make_plot(filename, array, nx, ny, dx, dy):
     """
     Load the data and plop it on the grid using nearest
@@ -111,6 +120,8 @@ if __name__ == "__main__":
             mesh[:, :, icol] = project_gas_pixel_grid(
                 data, dpi
             )
+
+            mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
         # Global variable for set_array
         plot = ax.imshow(
