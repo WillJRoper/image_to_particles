@@ -138,14 +138,14 @@ if __name__ == "__main__":
 
             data.gas.color = rgbs[pids, icol] * data.gas.masses
 
-            color_img = project_gas_pixel_grid(data, dpi, project="color")
-            mass_img = project_gas_pixel_grid(data, dpi)
+            color_img = project_gas_pixel_grid(data, dpi, project="color").T
+            mass_img = project_gas_pixel_grid(data, dpi).T
 
             mesh[:, :, icol] = normalize(color_img / mass_img)
 
         # Global variable for set_array
         plot = ax.imshow(
-            mesh.T,
+            mesh,
             extent=[0, 1, 0, 1],
             interpolation="none",
         )
