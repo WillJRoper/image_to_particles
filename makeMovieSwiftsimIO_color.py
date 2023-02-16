@@ -136,9 +136,10 @@ if __name__ == "__main__":
             data = load_and_extract(fn)
             pids = data.gas.particle_ids
 
-            data.gas.masses[:] = rgbs[:, icol]
+            data.gas.internal_energy[:] = rgbs[pids, icol]
 
-            mesh[:, :, icol] = project_gas_pixel_grid(data, dpi)
+            mesh[:, :, icol] = project_gas_pixel_grid(data, dpi,
+                                                      project="internal_energy")
 
             mesh[:, :, icol] = normalize(mesh[:, :, icol])
 
