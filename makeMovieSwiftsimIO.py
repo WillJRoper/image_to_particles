@@ -98,7 +98,7 @@ if __name__ == "__main__":
 
         # Global variable for set_array
         plot = ax.imshow(
-            mesh,
+            mesh.T,
             extent=[0, 1, 0, 1],
             animated=True,
             interpolation="none",

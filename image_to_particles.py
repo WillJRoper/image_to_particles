@@ -69,7 +69,7 @@ n_p = len(xs)
 # Lets make some velocities
 vels = np.zeros((xs.size, 3))
 okinds = dens < 2
-vels[okinds, 0] = 1
+vels[okinds, 0] = 10
 
 # Randomly spaced coordinates from 0, 100 Mpc in each direction
 x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc
@@ -78,7 +78,7 @@ x.gas.velocities = vels * (unyt.km / unyt.s)
 
 # Generate uniform masses as 10^6 solar masses for each particle
 mass = np.ones(n_p, dtype=float)
-mass[okinds] = 10 ** 3
+# mass[~okinds] = 10
 x.gas.masses = mass * unyt.Msun
 
 # Generate internal energy corresponding to 10^4 K
