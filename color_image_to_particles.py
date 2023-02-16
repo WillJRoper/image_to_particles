@@ -101,7 +101,7 @@ int_en = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
 x.gas.internal_energy = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
 temp = np.full(n_p, 100) * unyt.K
 temp[mid_point] = 10**8 * unyt.K
-x.gas.temperatrue = temp
+x.gas.temperatures = temp
 #
 x.gas.smoothing_length = np.ones(len(xs)) * unyt.Mpc
 x.gas.particle_ids = np.arange(n_p, dtype=int)
