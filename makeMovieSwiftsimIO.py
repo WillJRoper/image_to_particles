@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     filename = sys.argv[1]
     dpi = int(sys.argv[2])
-    outfilename = sys.argv[2]
+    outfilename = sys.argv[3]
 
     # Look for the number of files in the directory.
     i = 0
