@@ -111,7 +111,7 @@ if __name__ == "__main__":
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
         ax.axis("off")  # Remove annoying black frame.
 
-        mesh = project_gas_pixel_grid(data, dpi, project="temperature")
+        mesh = project_gas_pixel_grid(data, dpi, project="temperatures")
 
         # Global variable for set_array
         plot = ax.imshow(
