@@ -102,7 +102,6 @@ if __name__ == "__main__":
             extent=[0, 1, 0, 1],
             animated=True,
             interpolation="none",
-            norm=LogNorm(vmin=mesh.min() * 0.9, vmax=mesh.max() * 1.1),
             cmap="swift.midnights",
         )
 
