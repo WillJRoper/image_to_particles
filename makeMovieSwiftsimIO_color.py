@@ -136,3 +136,40 @@ if __name__ == "__main__":
 
         fig.savefig("{}_{:04d}.png".format(outfilename, n), dpi=dpi)
         plt.close(fig)
+
+        # Loop over colors
+        for icol in range(3):
+
+            # Creation of first frame
+            fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
+            ax.axis("off")  # Remove annoying black frame.
+
+            data = load_and_extract(fn)
+
+            # Get IDs
+            pids = data.gas.particle_ids
+
+            mesh = np.zeros((dpi, dpi, 3))
+
+            data.gas.masses[:] = rgbs[pids, icol]
+
+            mesh[:, :, icol] = project_gas_pixel_grid(
+                data, dpi
+            )
+
+            mesh[:, :, icol] = normalize(mesh[:, :, icol])
+
+            # Global variable for set_array
+            plot = ax.imshow(
+                mesh,
+                extent=[0, 1, 0, 1],
+                interpolation="none",
+            )
+
+            # Remove all whitespace
+            fig.subplots_adjust(left=0, bottom=0, right=1,
+                                top=1, wspace=None, hspace=None)
+
+            fig.savefig("{}_{:04d}_{:02d}.png".format(
+                outfilename, n, icol), dpi=dpi)
+            plt.close(fig)
