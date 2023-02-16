@@ -113,7 +113,6 @@ if __name__ == "__main__":
         plot = ax.imshow(
             mesh,
             extent=[0, 1, 0, 1],
-            animated=True,
             interpolation="none",
             cmap="swift.midnights",
         )
@@ -167,7 +166,8 @@ if __name__ == "__main__":
 
             data = load_and_extract(fn)
             pids = data.gas.particle_ids
-            data.gas.masses[:] = rgbs[pids, icol]
+            if icol != 0:
+                data.gas.masses[:] = rgbs[pids, icol]
 
             mesh[:, :, icol] = project_gas_pixel_grid(data, dpi)
 

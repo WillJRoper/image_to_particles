@@ -105,8 +105,8 @@ rs = np.sqrt(delta[:, 0] ** 2 + delta[:, 1] ** 2)
 print(rs.min(), rs.max())
 okinds = np.where(rs < 20)[0]
 print(okinds.size, okinds)
-vels[okinds, 0] = 10 * np.cos(polar[okinds, 1])
-vels[okinds, 1] = 10 * np.sin(polar[okinds, 1])
+vels[okinds, 0] = 1 * np.cos(polar[okinds, 1])
+vels[okinds, 1] = 1 * np.sin(polar[okinds, 1])
 x.gas.velocities = vels * (unyt.km / unyt.s)
 
 # Generate uniform masses as 10^6 solar masses for each particle
@@ -115,7 +115,7 @@ x.gas.masses = np.ones(n_p, dtype=float) * unyt.Msun
 # Generate internal energy corresponding to 10^4 K
 int_en = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
 x.gas.internal_energy = np.ones(n_p, dtype=float) * (unyt.km / unyt.s) ** 2
-x.gas.internal_energy[okinds] = 5 * 10 ** 1 * (unyt.km / unyt.s) ** 2
+x.gas.internal_energy[okinds] = 10 ** 1 * (unyt.km / unyt.s) ** 2
 #
 x.gas.smoothing_length = np.ones(len(xs)) * unyt.Mpc
 x.gas.particle_ids = np.arange(n_p, dtype=int)
