@@ -13,6 +13,7 @@ import os
 import h5py as h5
 import numpy as np
 import scipy.interpolate as si
+import unyt
 
 from swiftsimio import load
 from swiftsimio.visualisation import project_gas_pixel_grid
