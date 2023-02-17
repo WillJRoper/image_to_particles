@@ -105,30 +105,30 @@ if __name__ == "__main__":
 
     for n in frames:
 
-        fn = "{}_{:04d}.hdf5".format(filename, n)
+        # fn = "{}_{:04d}.hdf5".format(filename, n)
 
-        data = load_and_extract(fn)
+        # data = load_and_extract(fn)
 
-        # Creation of first frame
-        fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
-        ax.axis("off")  # Remove annoying black frame.
+        # # Creation of first frame
+        # fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
+        # ax.axis("off")  # Remove annoying black frame.
 
-        mesh = project_gas_pixel_grid(data, dpi)
+        # mesh = project_gas_pixel_grid(data, dpi)
 
-        # Global variable for set_array
-        plot = ax.imshow(
-            mesh,
-            extent=[0, 1, 0, 1],
-            interpolation="none",
-            cmap="swift.midnights",
-        )
+        # # Global variable for set_array
+        # plot = ax.imshow(
+        #     mesh,
+        #     extent=[0, 1, 0, 1],
+        #     interpolation="none",
+        #     cmap="swift.midnights",
+        # )
 
-        # Remove all whitespace
-        fig.subplots_adjust(left=0, bottom=0, right=1,
-                            top=1, wspace=None, hspace=None)
+        # # Remove all whitespace
+        # fig.subplots_adjust(left=0, bottom=0, right=1,
+        #                     top=1, wspace=None, hspace=None)
 
-        fig.savefig("{}_{:04d}_greyscale.png".format(outfilename, n), dpi=dpi)
-        plt.close(fig)
+        # fig.savefig("{}_{:04d}_greyscale.png".format(outfilename, n), dpi=dpi)
+        # plt.close(fig)
 
         # Creation of first frame
         fig, ax = plt.subplots(1, 1, figsize=(1, 1), frameon=False)
@@ -145,9 +145,9 @@ if __name__ == "__main__":
             data.gas.color = rgbs[pids, icol] * data.gas.masses
 
             color_img = project_gas_pixel_grid(data, dpi, project="color").T
-            mass_img = project_gas_pixel_grid(data, dpi).T
+            # mass_img = project_gas_pixel_grid(data, dpi).T
 
-            mesh[:, :, icol] = normalize(color_img / mass_img)
+            mesh[:, :, icol] = normalize(color_img)
 
         # Global variable for set_array
         plot = ax.imshow(
