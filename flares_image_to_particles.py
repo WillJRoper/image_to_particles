@@ -19,7 +19,7 @@ def cartesian_to_polar(x, y):
     return np.array((r, theta)).T
 
 
-downsample = 2
+downsample = 3
 IMAGE_SIZE = 3000 // downsample
 
 image = PIL.Image.open("/Users/willroper/Downloads/flares_team.png")

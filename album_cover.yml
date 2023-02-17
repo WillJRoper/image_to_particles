@@ -16,7 +16,7 @@ TimeIntegration:
 
 # Parameters governing the snapshots
 Snapshots:
-  basename:            data/swift_logo  # Common part of the name of output files
+  basename:            data/flares_team  # Common part of the name of output files
   time_first:          0.               # Time of the first output (in internal units)
   delta_time:          0.1      # Time difference between consecutive outputs (in internal units)
 
@@ -31,7 +31,7 @@ SPH:
   
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./swift_logo.hdf5     # The file to read
+  file_name:  ./flares_team.hdf5     # The file to read
   periodic:   1
   cleanup_smoothing_lengths: 1
 
