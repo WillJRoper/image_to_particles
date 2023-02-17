@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import swiftascmaps
 
-downsample = 2
+downsample = 1
 IMAGE_SIZE = (1280 // downsample, 640 // downsample)
 # %%
 image = PIL.Image.open("/Users/willroper/Downloads/SWIFTLogo.png")
@@ -69,7 +69,8 @@ n_p = len(xs)
 # Lets make some velocities
 vels = np.zeros((xs.size, 3))
 okinds = dens > 2
-vels[okinds, 0] = 1
+vels[okinds, 0] = 2
+vels[~okinds, 0] = -2
 
 # Randomly spaced coordinates from 0, 100 Mpc in each direction
 x.gas.coordinates = np.array([xs, ys, np.zeros_like(xs)]).T * unyt.Mpc

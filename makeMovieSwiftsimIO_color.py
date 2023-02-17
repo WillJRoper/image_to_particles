@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     from tqdm import tqdm
     from scipy.stats import gaussian_kde
-    from matplotlib.colors import LogNorm
+    from matplotlib.colors import Normalize
 
     import swiftascmaps
     import matplotlib.pyplot as plt
@@ -96,6 +96,12 @@ if __name__ == "__main__":
                 "Could not find the snapshots in the directory")
 
     frames = tqdm(np.arange(0, i))
+
+    # Do frame 1 to get normalisation
+    fn = "{}_{:04d}.hdf5".format(filename, n)
+    data = load_and_extract(fn)
+    mesh = project_gas_pixel_grid(data, dpi)
+    norm = Normalize(vmin=0.9 * mesh.min(), vmax=1.1 * mesh.max())
 
     for n in frames:
 
