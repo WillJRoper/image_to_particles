@@ -31,7 +31,7 @@ SPH:
   
 # Parameters related to the initial conditions
 InitialConditions:
-  file_name:  ./flares_team.hdf5     # The file to read
+  file_name:  ./flares_ics.hdf5     # The file to read
   periodic:   1
   cleanup_smoothing_lengths: 1
 
