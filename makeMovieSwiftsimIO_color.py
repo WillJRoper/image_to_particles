@@ -98,7 +98,7 @@ if __name__ == "__main__":
     frames = tqdm(np.arange(0, i))
 
     # Do frame 1 to get normalisation
-    fn = "{}_{:04d}.hdf5".format(filename, n)
+    fn = "{}_{:04d}.hdf5".format(filename, 0)
     data = load_and_extract(fn)
     mesh = project_gas_pixel_grid(data, dpi)
     norm = Normalize(vmin=0.9 * mesh.min(), vmax=1.1 * mesh.max())
